@@ -10,6 +10,7 @@
         {
             background-color: #00bcd4;
             background-repeat: repeat-x;
+            
             margin-left: 0px;
             margin-top: 0px;
             margin-right: 0px;
