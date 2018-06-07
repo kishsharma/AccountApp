@@ -1,0 +1,119 @@
+﻿
+Imports System.Data
+
+Partial Class AspxPages_UploadImageDataToDB
+    Inherits System.Web.UI.Page
+
+    Private Sub form1_Load(sender As Object, e As EventArgs) Handles form1.Load
+        Dim CompanyId As String = String.Empty
+        Dim IdUser As String = String.Empty
+        Dim SeletedTransactionTypeId As String = String.Empty
+        Dim TransactionID As String = String.Empty
+        Dim TransactionImageName As String = String.Empty
+        Dim TransactionImageType As String = String.Empty
+        Dim TransactionRemark As String = String.Empty
+        Dim TransactionTags As String = String.Empty
+        Dim TransactionDate As String = String.Empty
+        Dim StrActualFileNm As String = "SC4_JE_Demo_8_5_2018_10_52_37.jpg"
+        Dim StrActualFileName() As String = StrActualFileNm.Split(".")
+        Dim FilenameSplit() As String = StrActualFileNm.Split("_")
+
+        Dim SQLTrnDetails As String = "select idClient from tbl_client where ClientShortCode ='" & FilenameSplit(0) & "'"
+        SQLTrnDetails = SQLTrnDetails & "select iddefination from tbl_Defination where DefinationCode = '" & FilenameSplit(1) & "'"
+        Dim DtsTrnDetails As New DataSet
+        Dim cldobj As New clsData
+        Dim StrExp As String = String.Empty
+        DtsTrnDetails = cldobj.fnGetDataSet(SQLTrnDetails, StrExp)
+        cldobj = Nothing
+
+        CompanyId = DtsTrnDetails.Tables(0).Rows(0)(0)
+        IdUser = 1
+        SeletedTransactionTypeId = DtsTrnDetails.Tables(1).Rows(0)(0)
+        TransactionID = FilenameSplit(2)
+        TransactionImageName = StrActualFileName(0)
+        TransactionImageType = StrActualFileName(1)
+        TransactionRemark = FilenameSplit(2) & ", " & FilenameSplit(5)
+        TransactionTags = FilenameSplit(2) & ", " & FilenameSplit(5)
+        TransactionDate = FilenameSplit(3) & "/" & FilenameSplit(4) & "/" & FilenameSplit(5) & " 00:00:00"
+
+
+        UploadTransactiontoDB(CompanyId, IdUser, SeletedTransactionTypeId, TransactionID, TransactionImageName, TransactionImageType, TransactionRemark, TransactionTags, TransactionDate)
+
+    End Sub
+
+
+
+    Private Function UploadTransactiontoDB(CompanyId As String, IdUser As String, SeletedTransactionTypeId As String, TransactionID As String, TransactionImageName As String, TransactionImageType As String, TransactionRemark As String, TransactionTags As String, TransactionDate As String) As String
+        Dim StrReturn As String = String.Empty
+        Dim StrLogMsg As String = String.Empty
+        Dim StrLogAPIParameter As String = CompanyId & " | " & IdUser & " | " & SeletedTransactionTypeId & " | " & TransactionID & " | " & TransactionImageName & " | " & TransactionRemark & " | " & TransactionTags & " | " & TransactionDate
+        TransactionImageName = Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(TransactionImageName, "/", "_"), "\", "_"), ":", "_"), "*", "_"), "?", "_"), """", "_"), "<", "_"), ">", "_"), "|", "_")
+        Dim StrLogAPIAccessDateTime As String = Now.ToString
+        Dim fileName As String = String.Empty
+        Dim LngReturn As Long = 0
+        TransactionImageName = TransactionImageName & "." & TransactionImageType
+        Dim StrExp As String = String.Empty
+        Try
+            fileName = TransactionImageName
+            TransactionImageName = "Upload/Transaction/" & TransactionImageName
+            Dim StrQry As New StringBuilder
+            StrQry.Append(" Insert into tbl_UploadTransaction(IDCompany, idTransactionType, TransactionId, UploadTransactionFileName, UploadDate, IdUser, UploadFrom, TransactionRemark, TransactionCurrentStatus, TransactionTags, TransactionDate) ")
+            StrQry.Append(" Values( " & CompanyId & " , " & SeletedTransactionTypeId & ", '" & TransactionID & "', '" & TransactionImageName & "', getdate(), " & IdUser & ", 2, '" & TransactionRemark & "', 0, '" & TransactionTags & "', '" & TransactionDate & "')")
+            Dim clsObj As New clsData
+            LngReturn = clsObj.fnExecute(StrQry.ToString, StrExp, 1)
+            clsObj = Nothing
+            If LngReturn > 0 Then
+                'Dim DtsReturn As New DataSet
+                'DtsReturn.Tables.Add("DTRetrun")
+                'DtsReturn.Tables(0).Columns.Add("Remark")
+                'DtsReturn.Tables(0).Columns.Add("ResponceStatus")
+                'DtsReturn.Tables(0).Rows.Add()
+                'DtsReturn.Tables(0).Rows(0)("Remark") = "Transaction File Uploaded Successfully, Named: " & fileName
+                'DtsReturn.Tables(0).Rows(0)("ResponceStatus") = "1"
+                'StrReturn = fnGetJson(DtsReturn.Tables(0))
+                StrReturn = "Transaction File Uploaded Successfully, Named: " & fileName
+                StrLogMsg = "Transaction File Uploaded Successfully, Named: " & fileName
+
+                Dim clsAPILog As New clsData
+                Dim LngAPILogID As Long = clsAPILog.fnInsertAPILog(StrLogAPIParameter, StrLogAPIAccessDateTime, StrLogMsg, Now.ToString)
+                clsAPILog = Nothing
+            Else
+                'Dim DtsReturn As New DataSet
+                'DtsReturn.Tables.Add("DTRetrun")
+                'DtsReturn.Tables(0).Columns.Add("Remark")
+                'DtsReturn.Tables(0).Columns.Add("ResponceStatus")
+                'DtsReturn.Tables(0).Rows.Add()
+                'DtsReturn.Tables(0).Rows(0)("Remark") = "Transaction File Upload Failed, Please Contact System Admin"
+                'DtsReturn.Tables(0).Rows(0)("ResponceStatus") = "2"
+                'StrReturn = fnGetJson(DtsReturn.Tables(0))
+                StrReturn = "Transaction File Upload Failed, Please Contact System Admin"
+                StrLogMsg = "Transaction File Upload Failed, Please Contact System Admin"
+
+                Dim clsAPILog As New clsData
+                Dim LngAPILogID As Long = clsAPILog.fnInsertAPILog(StrLogAPIParameter, StrLogAPIAccessDateTime, StrLogMsg, Now.ToString)
+                clsAPILog = Nothing
+            End If
+        Catch ex As Exception
+            'Dim DtsReturn As New DataSet
+            'DtsReturn.Tables.Add("DTRetrun")
+            'DtsReturn.Tables(0).Columns.Add("Remark")
+            'DtsReturn.Tables(0).Columns.Add("ResponceStatus")
+            'DtsReturn.Tables(0).Rows.Add()
+            'DtsReturn.Tables(0).Rows(0)("Remark") = "Transaction File Upload was Unsuccess With Exception : " & ex.Message 'fnReturnFalseJSON(ex.Message)
+            'DtsReturn.Tables(0).Rows(0)("ResponceStatus") = "2"
+            'StrReturn = fnGetJson(DtsReturn.Tables(0))
+            StrReturn = "Transaction File Upload was Unsuccess With Exception : " & ex.Message 'fnReturnFalseJSON(ex.Message)
+            StrLogMsg = "Transaction File Upload was Unsuccess With Exception : " & ex.Message
+
+            Dim clsObj As New clsData
+            Dim LngAPILogID As Long = clsObj.fnInsertAPILog(StrLogAPIParameter, StrLogAPIAccessDateTime, StrLogMsg, Now.ToString)
+            clsObj = Nothing
+
+            StrLogMsg = ex.Message & " for API Id : " & LngAPILogID
+            clsObj = New clsData
+            clsObj.fninsertLog("Transaction Upload", "Transaction Upload", StrLogMsg, IdUser, "", 1)
+            clsObj = Nothing
+        End Try
+        Return StrReturn
+    End Function
+End Class

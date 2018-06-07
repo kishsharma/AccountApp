@@ -1,0 +1,12 @@
+An authentication error has occured.
+The function requested is not supported
+
+Remote Computer 
+This could be due to CredSSP Encryption oracle remediation.
+for more information, see https://go.microsoft.com/fwlink/?linkid=866660
+
+
+
+Solution Link
+https://sebastian.expert/fix-for-this-could-be-due-to-credssp-encryption-oracle-remediation/
+

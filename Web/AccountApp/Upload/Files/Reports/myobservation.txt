@@ -1,0 +1,21 @@
+1) On Password Text Entry Press Enter Gives Error - On add New Applicant First Screen
+2) On Discount Tab - 
+did below things
+2.1) Employee Discount Applicable? Y
+Applied Salary = 100000
+Nos. of Siblings = 2
+Upload Employement Certificate
+2.2) Group Discount Applicable? Y
+Gorup Name : Business Group
+2.3) Sibling Discount applicable? Y
+No of Sibling 2
+Upload Document
+Click on Save - Gave Error 
+to regenerate click on Back
+no the Yes / No option is not working
+
+
+3) Age Calculation - if date provided
+4) Correspondence Address Fail to fill DDL Dependent Value
+5) Correspondence Fax No is not carried
+On Click of Save in Personal Details Correspondence Fax No is not save / Updated.

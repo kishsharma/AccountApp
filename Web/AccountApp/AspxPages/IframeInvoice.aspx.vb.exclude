@@ -1,0 +1,48 @@
+Imports System.Data
+
+Partial Class AspxPages_IframeInvoice
+    Inherits System.Web.UI.Page
+    Dim temp As New DataTable()
+    Dim tempFooter As New DataTable()
+    Public word As String
+  
+    Protected Sub Page_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+        If Session("InvGvd") Is Nothing Then
+
+        Else
+            word = Session("GvdWord")
+            temp = DirectCast(Session("InvGvd"), DataTable)
+            tempFooter = DirectCast(Session("GvdFooter"), DataTable)
+            FarReport.InnerHtml = loadReportdata().ToString()
+
+        End If
+    End Sub
+    Public Function loadReportdata() As StringBuilder
+        Dim sb As New StringBuilder()
+      
+        If temp.Rows.Count > 0 Then
+            sb.Append(" <table id='example' class='display' cellspacing='0' width='100%'>")
+            sb.Append(" <thead>")
+            sb.Append("<tr><th rowspan='2'>Sl No</th><th rowspan='2'> Product</th><th rowspan='2'> HSN(Code)</th><th rowspan='2'> UOM</th><th rowspan='2'>Qty</th><th rowspan='2'> Rate</th><th rowspan='2'> Amount</th><th rowspan='2'>Discount</th><th rowspan='2'>Taxable Value</th><th colspan='2'>CGST</th><th colspan='2'> SGST</th><th rowspan='2'>Total</th> </tr><tr><th> Rate</th> <th> Amount</th><th>Rate</th> <th>Amount</th></tr>")
+            sb.Append("</thead>")
+            sb.Append(" <tbody>")
+            For Each row As DataRow In temp.Rows
+                sb.Append("<tr><td>" & row("SlNo").ToString() & "</td> <td style='text-align: right;'> " & row("ItemName").ToString() & "</td><td>" & row("HSNCode").ToString() & "</td> <td>" & row("UOM").ToString() & " </td><td>" & row("Nos").ToString() & "</td> <td>" & row("Rate").ToString() & "</td> <td>" & row("Amount").ToString() & "</td><td> " & row("Discount").ToString() & " </td><td>" & row("TaxValue").ToString() & "</td><td>" & row("CGSTRate").ToString() & "</td><td> " & row("CGSTAmount").ToString() & "</td><td> " & row("SGSTRate").ToString() & "</td> <td>" & row("SGSTAmount").ToString() & "</td><td>" & row("TotalAmount").ToString() & "</td> </tr>")
+            Next
+            sb.Append(" </tbody>")
+            If tempFooter.Rows.Count > 0 Then
+                sb.Append(" <tfoot>")
+                sb.Append("<tr><th colspan='4'> Total</th> <th> " & tempFooter.Rows(0)("Nos") & " </th> <th></th><th> " & tempFooter.Rows(0)("Amount") & "</th><th>" & tempFooter.Rows(0)("Discount") & "</th> <th> " & tempFooter.Rows(0)("TaxValue") & " </th> <th> </th><th>" & tempFooter.Rows(0)("CGSTAmount") & "</th> <th></th> <th>" & tempFooter.Rows(0)("SGSTAmount") & "</th><th>" & tempFooter.Rows(0)("TotalAmount") & "</th></tr>")
+                sb.Append("<tr><th colspan='4' rowspan='5'> Total amount in words</th> <th colspan='6' id='thword' rowspan='5'> <span id='spWord'> welcome</span> </th> <th colspan='3'>Total Amount before Tax:</th> <th>" & tempFooter.Rows(0)("TaxValue") & "</th></tr>")
+                sb.Append("<tr> </th> <th colspan='3'>Add: CGST:</th> <th>" & tempFooter.Rows(0)("CGSTAmount") & "</th></tr>")
+                sb.Append("<tr> </th> <th colspan='3'>Add: SGST:</th> <th>" & tempFooter.Rows(0)("SGSTAmount") & "</th></tr>")
+                sb.Append("<tr> </th> <th colspan='3'>Total Tax Amount:</th> <th>" & Convert.ToDecimal(tempFooter.Rows(0)("CGSTAmount")) + Convert.ToDecimal(tempFooter.Rows(0)("SGSTAmount")) & "</th></tr>")
+                sb.Append("<tr> </th> <th colspan='3'>Total Amount after Tax:</th> <th>" & tempFooter.Rows(0)("TotalAmount") & "</th></tr>")
+                sb.Append("</tfoot>")
+
+            End If
+            sb.Append(" </table>")
+        End If
+        Return sb
+    End Function
+End Class

@@ -1,0 +1,148 @@
+﻿Imports System.Data
+
+Partial Class AspxPages_AspxGenerateInvoice
+    Inherits System.Web.UI.Page
+    Public StrDateFormat As String
+    Public StrInvoiceDate As String = String.Empty
+    Dim Amnt As Decimal = 0D, TotQty As Decimal = 0D, TotRate As Decimal = 0D, TotDisc As Decimal = 0D, TotDiscAmnt As Decimal = 0D, TotCGSTRate As Decimal = 0D,
+        TotSGSTRate As Decimal = 0D, TotCGSTAmnt As Decimal = 0D, TotSGSTAmnt As Decimal = 0D, TotAmnt As Decimal = 0D
+
+    Dim temp As New DataTable()
+
+    Protected Sub Page_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+        StrDateFormat = "d-M-Y"
+        Dim StrDate As String = "01-Apr-" & Now.Year
+        If Not IsPostBack Then
+            Dim clsfn As New ClsCommonFunction
+            StrInvoiceDate = (clsfn.fnChangeDateFormat(Now.Date(), "1", "/", "2", 0))
+            clsfn = Nothing
+            txtInvoiceDate.Text = StrInvoiceDate
+            fnFillCompanyDetails()
+            fnFillDDL()
+            Session("Gvd") = Nothing
+        End If
+    End Sub
+
+    Private Sub fnFillCompanyDetails()
+        Dim StrSQL As String = "select TxtCompanyName as 'TxtCompanyName', ClientLogo as 'ClientLogo',TxtMailingAddress as 'TxtMailingAddress',TxtTelephoneNo as 'TxtTelephoneNo'  from tbl_client where idClient=" & Session("IDClient")
+        Dim objCls As New clsData
+        Dim dtsGrd As New DataSet
+        dtsGrd = objCls.fnDataSet(StrSQL, 1, 1)
+        If Not IsNothing(dtsGrd) Then
+            If dtsGrd.Tables.Count > 0 Then
+                If dtsGrd.Tables(0).Rows.Count > 0 Then
+                    Dim ObjClsCmn As New ClsCommonFunction
+                    lblCompanyAddress.InnerHtml = dtsGrd.Tables(0).Rows(0)("TxtMailingAddress").ToString()
+                    imgcompanyId.HRef = "../" + dtsGrd.Tables(0).Rows(0)("ClientLogo").ToString()
+                    lblCompanyName.InnerHtml = dtsGrd.Tables(0).Rows(0)("TxtCompanyName").ToString()
+                    lblCompayNo.InnerHtml = dtsGrd.Tables(0).Rows(0)("TxtTelephoneNo").ToString()
+                End If
+
+            End If
+
+        End If
+        objCls = Nothing
+    End Sub
+
+    Private Sub fnFillDDL()
+        Dim clsodbcObj As New clsData
+        Dim StrDDLListQry As String = " select '0' id,'Select' data1 Union All select IdItems, ItemName from tbl_SupplierItems where idClient = " & Session("IDClient")
+        clsodbcObj.fnDropDownFill(StrDDLListQry, txtItemName, "data1", "id")
+        clsodbcObj = Nothing
+    End Sub
+
+    Protected Sub txtItemName_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles txtItemName.SelectedIndexChanged
+        Dim clsodbcObj As New clsData
+        Dim StrSupplierDetails As String = "select ItemOum from tbl_SupplierItems where IdItems = " & txtItemName.SelectedValue
+        Dim DtsSupplierDtl As New DataSet
+        Dim strErr As String = String.Empty
+        DtsSupplierDtl = clsodbcObj.fnGetDataSet(StrSupplierDetails, strErr)
+        clsodbcObj = Nothing
+        If Not IsNothing(DtsSupplierDtl) Then
+            If DtsSupplierDtl.Tables.Count > 0 Then
+                If DtsSupplierDtl.Tables(0).Rows.Count > 0 Then
+                    txtUOM.Value = DtsSupplierDtl.Tables(0).Rows(0)("ItemOum")
+                End If
+            End If
+        End If
+    End Sub
+
+    Protected Sub btnAddItem_Click(sender As Object, e As System.EventArgs) Handles btnAddItem.Click
+
+        Dim dtU1 As New DataTable()
+        If Gvdetails.HeaderRow IsNot Nothing Then
+            For i As Integer = 0 To Gvdetails.HeaderRow.Cells.Count - 1
+                dtU1.Columns.Add(Gvdetails.HeaderRow.Cells(i).Text)
+            Next
+        End If
+        For Each row As GridViewRow In Gvdetails.Rows
+            Dim dr As DataRow = dtU1.NewRow()
+
+            For i As Integer = 0 To row.Cells.Count - 1
+                dr(i) = row.Cells(i).Text
+            Next
+            dtU1.Rows.Add(dr)
+        Next
+        temp = dtU1
+        If Session("Gvd") Is Nothing Then
+            createDynamicGridInvoice()
+        Else
+            temp = DirectCast(Session("Gvd"), DataTable)
+        End If
+        temp.Rows.Add("", txtItemName.SelectedValue, txtHSNCode.Value, txtUOM.Value, txtNos.Value, txtRate.Value, txtAmount.Value, txtDutyTax.Value, txtDutyTaxValue.Value, txtCGSTRate.Value, txtCGSTAmount.Value, txtSGSTRate.Value, txtSGSTAmount.Value, txtTotalValue.Value)
+        Gvdetails.DataSource = temp
+        Gvdetails.DataBind()
+        Session("Gvd") = temp
+        ScriptManager.RegisterStartupScript(updtPnlPopUp1, updtPnlPopUp1.GetType(), "showtextbox", "showtextbox(); CalculationSum();", True)
+        addClear()
+    End Sub
+
+    Private Sub addClear()
+        txtItemName.SelectedValue = 0
+        txtHSNCode.Value = String.Empty
+        txtUOM.Value = String.Empty
+        txtNos.Value = String.Empty
+        txtRate.Value = String.Empty
+        txtAmount.Value = String.Empty
+        txtDutyTax.Value = String.Empty
+        txtDutyTaxValue.Value = String.Empty
+        txtCGSTRate.Value = String.Empty
+        txtCGSTAmount.Value = String.Empty
+        txtSGSTRate.Value = String.Empty
+        txtSGSTAmount.Value = String.Empty
+        txtTotalValue.Value = String.Empty
+    End Sub
+    Private Sub createDynamicGridInvoice()
+        If temp.Columns.Count = 0 Then
+            temp.Columns.Add("SlNo")
+            temp.Columns.Add("ItemName")
+            temp.Columns.Add("HSNCODE")
+            temp.Columns.Add("UOM")
+            temp.Columns.Add("Qty")
+            temp.Columns.Add("Rate")
+            temp.Columns.Add("Amount")
+            temp.Columns.Add("Discount")
+            temp.Columns.Add("Taxable")
+            temp.Columns.Add("CGSTRate")
+            temp.Columns.Add("CGSTAmount")
+            temp.Columns.Add("SGSTRate")
+            temp.Columns.Add("SGSTAmount")
+            temp.Columns.Add("TotalValue")
+        End If
+    End Sub
+    Protected Sub Gvdetails_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles Gvdetails.RowDataBound
+
+        'If e.Row.RowType = DataControlRowType.Header Then
+        'End If
+        'If e.Row.RowType = DataControlRowType.DataRow Then
+        '    eachrowttol = Convert.ToDecimal(e.Row.Cells(7).Text)
+        '    fullrowttol = fullrowttol + eachrowttol
+        'End If
+        'If e.Row.RowType = DataControlRowType.Footer Then
+        '    totalAcceblevalue = fullrowttol
+        '    txtTotalValue.Text = totalAcceblevalue
+        '    'LoadCalculation()
+        'End If
+
+    End Sub
+End Class

@@ -1,0 +1,305 @@
+﻿<%@ Master Language="VB" CodeFile="Account.master.vb" Inherits="Master_Account" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        body
+        {
+            background-color: #f7f7f7;
+            background-repeat: repeat-x;
+            margin-left: 0px;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+        }
+    </style>
+    <link href="../Resource/css/style.css" rel="stylesheet" type="text/css" />
+    <!--TOGGLE-BOX-->
+    <link href="../Resource/js/normalize.css" rel="stylesheet" type="text/css" />
+    <script src="../Resource/js/jquery-1.js" type="text/javascript"></script>
+    <script type="text/javascript">//<![CDATA[
+        $(window).load(function () {
+            $('b').toggle(
+
+function () {
+    $('#B').animate({ left: 0 })
+}, function () {
+    $('#B').animate({ left: 250 })
+})
+        });//]]>  
+
+    </script>
+    <!--TOGGLE-BOX-->
+    <!--TABBING-SCRIPTS-->
+   <%-- <script>
+        var selected = "sel1";
+        var disp = "resultsel1";
+        function show(a, b) {
+            document.getElementById(selected).style.backgroundColor = "#6a6a6a";
+            document.getElementById(disp).style.display = "none";
+
+            document.getElementById(a).style.backgroundColor = "#00bcd5";
+            document.getElementById(a).style.color = "#ffffff";
+
+            document.getElementById(b).style.display = "block";
+            selected = a;
+            disp = b;
+        }
+    </script>--%>
+    <!--TABBING-SCRIPTS-->
+    <!--DROPDOWN-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="../Resource/js/dropdown/zelect.js" type="text/javascript"></script>
+    <link href="../Resource/js/dropdown/dropdown.css" rel="stylesheet" type="text/css" />
+    <!--DROPDOWN-->
+    <!--calendar-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link href="../Resource/js/calender/calendar.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <!--calendar-->
+        <!--Check Box CSS Starts Here-->
+    <style type="text/css">
+        input[type="checkbox"]
+        {
+            display: none;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
+        input[type="checkbox"] + label span
+        {
+            display: inline-block;
+            vertical-align: middle;
+            width: 25px;
+            height: 25px;
+            background: url(../Resource/Images/uncheck.png);
+        }
+        
+        input[type="checkbox"]:checked + label span
+        {
+            background: url(../Resource/Images/check_2.png);
+            content: '\f14a';
+            color: #fff;
+            vertical-align: middle;
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+    <!--Check Box CSS Ends Here-->
+</head>
+<body>
+    <div class="wrapper">
+        <div style="float: left; width: 100%; height: auto; min-height: 65px;">
+            <div class="header">
+                <img src="../Resource/Images/logo.jpg" />
+            </div>
+        </div>
+        <div class="middle_content">
+            <div id="A">
+                <div class="left_col">
+                    <div class="member_box">
+                        <div class="member_img">
+                            <img src="../Resource/Images/member_img.png" />
+                        </div>
+                        <div class="member_text">
+                            <strong>
+                                <asp:Label ID="lblUserName" runat="server" Text="Westilian Jaman" />
+                            </strong>
+                            <br />
+                            <span style="font-size: 11px;">
+                                <asp:Label ID="lblLoginName" runat="server" Text="jaman@mymail.com" />
+                            </span>
+                            <br />
+                            <a href="../Default.aspx" class="logout_btn">Logout</a>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="javascript:void(0)" onclick="document.getElementById('light2').className ='Default';document.getElementById('').style.display='block'"
+                            class="menuopen_text">Menu</a>
+                        <div id="light2" class="Default_open">
+                            <a href="javascript:void(0)" onclick="document.getElementById('light2').className ='Default2';document.getElementById('').style.display='none'"
+                                class="menu_close">
+                                <img src="../Resource/Images/menu_close.png" />
+                            </a>
+                            <asp:Repeater ID="rptMenus" runat="server" OnItemDataBound="rptMenu_ItemDataBound">
+                                <HeaderTemplate>
+                                    <div class="left_menu">
+                                        <ul>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <li class="menu_link">
+                                        <div>
+                                            <div class="menu_icon">
+                                                <img src="../Resource/Images/dashboard_icon.png" />
+                                            </div>
+                                            <div class="menu_text">
+                                                <%# Eval("MenuName")%>
+                                            </div>
+                                            <div class="submenu_box">
+                                                <ul>
+                                                    <asp:Literal ID="ltrlSubMenu" runat="server"></asp:Literal>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    </ul> </div>
+                                </FooterTemplate>
+                            </asp:Repeater>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="left: 250px;" id="B">
+                <b class="hide_show"></b>
+                <div class="right_column">
+                    <div class="breadcrumbs_box">
+                        <asp:Label ID="lblSiteMap" runat="server" />
+                        <div class="loadingtime_box">
+                            <span id="pageloadingTime"></span>
+                        </div>
+                    </div>
+                    <div id="content" runat="server" class="content" clientidmode="Static">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                            <asp:UpdatePanel ID="CntntPlceHldrMstr_updPnl" runat="server">
+                                <ContentTemplate>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var beforeload = new Date().getTime();
+    //alert(beforeload);
+    window.onload = gettimeload;
+    //initSession();
+    function gettimeload() {
+        //var loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+        //var loadedtime ;
+        var aftrload = new Date().getTime();
+        //alert(aftrload);
+        //Time calculating in seconds
+        time = (aftrload - beforeload) / 1000
+        //alert(time);
+        document.getElementById("pageloadingTime").innerHTML = "Page loading time: " + time + " second(s).millisecond(s)";
+    }
+</script>
+<script language="javascript" type="text/javascript">
+    function disableClick() {
+        //        document.onclick = function (event) {
+        //            if (event.button == 2) {
+        //                alert('Right Click Message');
+        //                return false;
+        //            }
+        //        }
+    }
+
+    //         function DoFocus(txt) 
+    //         {
+    //             txt.className = 'focus';
+    //         }    
+</script>
+<script language="javascript" type="text/javascript">
+    var maxInactiveInterval = 120;
+    function startCountdown() {
+        //        window.setTimeout(alertSessionTimeout, ((maxInactiveInterval - 60) * 1000));
+    }
+
+    function alertSessionTimeout() {
+        alert("You're session is going to timeout in 1 minute.");
+    }
+</script>
+<script type="text/javascript">
+
+    var sess_pollInterval = 60000;
+    var sess_expirationMinutes = 20;
+    var sess_warningMinutes = 5;
+    var sess_intervalID;
+    var sess_lastActivity;
+
+    function initSession() {
+        sess_lastActivity = new Date();
+        sessSetInterval();
+        $(document).bind('keypress.session', function (ed, e) {
+            sessKeyPressed(ed, e);
+        });
+    }
+
+    function sessSetInterval() {
+        sess_intervalID = setInterval('sessInterval()', sess_pollInterval);
+    }
+
+    function sessClearInterval() {
+        clearInterval(sess_intervalID);
+    }
+
+    function sessKeyPressed(ed, e) {
+        sess_lastActivity = new Date();
+    }
+
+    function sessLogOut() {
+        window.location.href = 'AspxTimeOutPage.aspx';
+    }
+
+    function sessInterval() {
+        var now = new Date();
+        //get milliseconds of differneces 
+        var diff = now - sess_lastActivity;
+        //get minutes between differences
+        var diffMins = (diff / 1000 / 60);
+
+        if (diffMins >= sess_warningMinutes) {
+            //wran before expiring
+            //stop the timer
+            sessClearInterval();
+            //promt for attention
+            var active = confirm('Your session will expire in ' + (sess_expirationMinutes - sess_warningMinutes) +
+                ' minutes (as of ' + now.toTimeString() + '), press OK to remain logged in ' +
+                'or press Cancel to log off. \nIf you are logged off any changes will be lost.');
+            if (active == true) {
+                now = new Date();
+                diff = now - sess_lastActivity;
+                diffMins = (diff / 1000 / 60);
+
+                if (diffMins > sess_expirationMinutes) {
+                    alert('Sorry!!!, you had already crossed the Session(s) Time limit. You are Forcly Logged out.');
+                    sessLogOut();
+                }
+                else {
+                    alert('you re-initiated the Session(s)');
+                    initSession();
+                    sessSetInterval();
+                    sess_lastActivity = new Date();
+                }
+            }
+            else {
+                alert('you choosed to end the Session(s). You are logged out.');
+                sessLogOut();
+            }
+        }
+    }
+</script>
+<script language="javascript" type="text/javascript">
+    function OnStartUp() {
+        //        alert('1');
+        disableClick();
+        //        alert('2');
+        startCountdown();
+        //        alert('3');
+        initSession();
+        //        alert('4');
+    }
+
+</script>
+
+</html>

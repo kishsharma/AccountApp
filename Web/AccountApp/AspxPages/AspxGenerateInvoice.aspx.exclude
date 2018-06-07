@@ -1,0 +1,256 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Master/Account.master" AutoEventWireup="false" CodeFile="AspxGenerateInvoice.aspx.vb" Inherits="AspxPages_AspxGenerateInvoice" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <form id="frmGenerateInvoice" runat="server" role="form">
+        <asp:HiddenField ID="hdnIDInvoiceMaster" runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hdnClientid" runat="server" ClientIDMode="Static" />
+        <asp:ScriptManager ID="SMLocationMaster" runat="server" EnablePageMethods="true" ScriptMode="Release"></asp:ScriptManager>
+        <div class="company_box">
+            <div class="company_list company_list2">
+                <a id="imgcompanyId" runat="server"></a>
+            </div>
+            <div class="company_list company_list2">
+                <label id="lblCompanyName" runat="server">
+                </label>
+                <label id="lblCompanyAddress" runat="server">
+                </label>
+                <label id="lblCompayNo" runat="server">
+                </label>
+                <label id="lblGstin" runat="server">
+                    GSTIN: 27ABLPD8022B1Z3</label>
+            </div>
+            <div class="company_list company_list2">
+                <label>
+                    Company Logo</label>
+            </div>
+            <div class="heading16" style="background-color: #00bcd5; color: #fff; margin: 0 0 20px 0; padding: 8px 0; text-align: center; width: 100%;">
+                <strong>Tax Invoice</strong>
+            </div>
+            <div class="info_box" style="width: 50%; overflow: hidden;">
+                <div class="company_list company_list2">
+                    <label>Transport Mode:</label>
+                    <input type="text" class="form-control" runat="server" id="txtTransportMode" placeholder=" Transport Mode" clientidmode="Static" tabindex="7" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Vehicle number:</label>
+                    <input type="text" class="form-control" runat="server" id="txtVehicleNo" placeholder=" Vehicle number" clientidmode="Static" tabindex="8" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Date of Supply:</label>
+                    <asp:TextBox ID="TxtSupplyDate" runat="server" ClientIDMode="Static" class="form-control" placeholder="Supply Date" TabIndex="9" MaxLength="11" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Place of Supply :</label>                
+                    <input type="text" class="form-control" runat="server" id="txtSupplyPlace" placeholder=" Supply Place" clientidmode="Static" tabindex="10" maxlength="100" />
+                </div>
+            </div>
+            <div class="info_box" style="width: 50%; overflow: hidden;">
+                <div class="company_list company_list2">
+                    <label >Invoice No:</label>
+                    <input type="text" class="form-control" runat="server" id="txtInvoiceNo" placeholder=" Invoice No" clientidmode="Static" tabindex="1" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label >Invoice date:</label>
+                    <asp:TextBox ID="txtInvoiceDate" runat="server" ClientIDMode="Static" class="form-control" placeholder="Invoice Date" TabIndex="2" MaxLength="11" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Reverse Charge (Y/N):</label>
+                    <asp:DropDownList ID="DDLReverseCharge" runat="server" tabindex="3"  class="chosen-select" AutoPostBack="true">
+                            <asp:ListItem Selected="True" Value="0">Select</asp:ListItem>
+                            <asp:ListItem Value="Yes" Text="YES" />
+                            <asp:ListItem Value="No" Text="NO" />
+                        </asp:DropDownList>
+                </div>
+                <div class="company_list company_list2">
+                    <label>State:</label>
+                    <input type="text" class="form-control" runat="server" id="txtInvoiceState" placeholder=" State" clientidmode="Static" tabindex="4" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Code:</label>
+                    <input type="text" class="form-control" runat="server" id="txtInvoiceCode" placeholder=" Code" onkeypress="return IsNumericforDecimal(event);" clientidmode="Static" tabindex="5" maxlength="100" />
+                </div>
+            </div>
+            <div class="info_box" style="width: 49%; overflow: hidden;border-left:1px solid black;border-bottom:1px solid black;">
+                <div class="heading16" style="background-color: #00bcd5; color: #fff; margin: 0 0 20px 0; padding: 8px 0; text-align: center; width: 100%;">
+                    <strong>Ship to Party</strong>
+                </div>
+                <div class="company_list company_list2">
+                    <label>Name:</label>                
+                    <input type="text" class="form-control" runat="server" id="txtShipName" placeholder=" Name" clientidmode="Static" tabindex="17" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>GSTIN:</label>
+                    <input type="text" class="form-control" runat="server" id="txtShipAddress" placeholder=" Address" clientidmode="Static" tabindex="18" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Address:</label>
+                    <input type="text" class="form-control" runat="server" id="txtShipGSTIN" placeholder=" GSTIN" clientidmode="Static" tabindex="19" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>State:</label>
+                    <input type="text" class="form-control" runat="server" id="txtShipState" placeholder=" State" clientidmode="Static" tabindex="20" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Code:</label>
+                    <input type="text" class="form-control" runat="server" id="txtShipCode" placeholder=" Code" onkeypress="return IsNumericforDecimal(event);" clientidmode="Static" tabindex="21" maxlength="100" />
+                </div>
+            </div>
+            <div class="info_box" style="width: 50%; overflow: hidden;border-bottom:1px solid black;">
+                <div class="heading16" style="background-color: #00bcd5; color: #fff; margin: 0 0 20px 0; padding: 8px 0; text-align: center; width: 100%;">
+                    <strong>Bill to Party</strong>
+                </div>
+                <div class="company_list company_list2">
+                    <label>Name:</label>                
+                    <input type="text" class="form-control" runat="server" id="txtBillName" placeholder=" Name" clientidmode="Static" tabindex="10" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Address:</label>                
+                    <input type="text" class="form-control" runat="server" id="txtBillAddress" placeholder=" Address" clientidmode="Static" tabindex="11" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>GSTIN:</label>                
+                    <input type="text" class="form-control" runat="server" id="txtBillGSTIN" placeholder=" GSTIN" clientidmode="Static" tabindex="12" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>State:</label>                
+                    <input type="text" class="form-control" runat="server" id="txtBillState" placeholder=" State" clientidmode="Static" tabindex="13" maxlength="100" />
+                </div>
+                <div class="company_list company_list2">
+                    <label>Code:</label>                
+                    <input type="text" class="form-control" runat="server" id="txtBillCode" placeholder=" Code" onkeypress="return IsNumericforDecimal(event);" clientidmode="Static" tabindex="14" maxlength="100" />
+                </div>
+            </div>
+        </div>
+        <div class="company_box">
+            <asp:UpdatePanel ID="updtPnlPopUp1" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <fieldset>
+                        <div class="company_list">
+                            <label>Item Name</label>
+                            <asp:DropDownList ID="txtItemName" class="chosen-select" runat="server" TabIndex="22" AutoPostBack="true" />
+                        </div>
+                        <div class="company_list" style="width: 18%;">
+                            <label>HSN CODE</label>
+                            <input type="text" class="form-control" runat="server" id="txtHSNCode" placeholder=" HSN CODE" clientidmode="Static" tabindex="23" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>UOM</label>
+                            <input type="text" class="form-control" disabled="disabled" runat="server" id="txtUOM" placeholder=" UOM" clientidmode="Static" tabindex="24" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>Qty.</label>
+                            <input type="text" class="form-control" runat="server" id="txtNos" placeholder=" Nos." onblur="CalculateAmount(this.value);" clientidmode="Static" tabindex="25" maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>Rate</label>
+                            <input type="text" class="form-control" runat="server" id="txtRate" placeholder=" Rate" onblur="CalculateAmount(this.value);" clientidmode="Static" tabindex="26" maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>Amount</label>
+                            <input type="text" disabled="disabled" class="form-control" runat="server" id="txtAmount" placeholder=" Amount" clientidmode="Static"  maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>Discount %</label>
+                            <input type="text" class="form-control" runat="server" id="txtDutyTax" placeholder=" Duty Tax %" clientidmode="Static" tabindex="27" maxlength="100" onblur="CalculateRateDiscount(this.value);" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>Taxable Value</label>
+                            <input type="text" disabled="disabled" class="form-control" runat="server" id="txtDutyTaxValue" placeholder=" Duty Tax Value" clientidmode="Static"  maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>CGST Rate</label>
+                            <input type="text" class="form-control" runat="server" id="txtCGSTRate" placeholder=" CGST Rate" onblur="CalculateCGST(this.value);" clientidmode="Static" tabindex="28" maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>CGST Amount</label>
+                            <input type="text" class="form-control" runat="server" id="txtCGSTAmount" placeholder=" CGST Amount" disabled="disabled" clientidmode="Static"  maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>SGST Rate</label>
+                            <input type="text" class="form-control" runat="server" id="txtSGSTRate" placeholder=" SGST Rate" onblur="CalculateSGST(this.value);" clientidmode="Static" tabindex="29" maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>SGST Amount</label>
+                            <input type="text"  class="form-control" runat="server" id="txtSGSTAmount" placeholder=" SGST Amount" disabled="disabled" clientidmode="Static"  maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                        </div>
+                        <div class="company_list" style="width: 10%;">
+                            <label>Total Value</label>
+                            <input type="text" disabled="disabled" class="form-control" runat="server" id="txtTotalValue" placeholder=" Total Value" clientidmode="Static"  maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                        </div>
+                        <div class="company_list">
+                            <asp:Button ID="btnAddItem" runat="server" Text="Add Item" CssClass="submit_btn" OnClientClick="return validate()" TabIndex="30"/>
+                            <asp:Button ID="btnResetItem" runat="server" Text="Reset" CssClass="submit_btn" OnClientClick="return resetFields()" TabIndex="31"/>
+                        </div>
+                        <div class="heading16" style="border: thin">
+                            <asp:GridView ID="Gvdetails" CssClass="total_list" HeaderStyle-ForeColor="Black"
+                                ShowHeader="True" runat="server" AutoGenerateColumns="false">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="SlNo" ItemStyle-Width="37px">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <%# Container.DataItemIndex+1 %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="ItemName" HeaderText="ItemName">
+                                        <ItemStyle VerticalAlign="Middle" HorizontalAlign="left" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="HSNCODE" HtmlEncode="false" HeaderText="HSN CODE">
+                                        <ItemStyle VerticalAlign="Middle" HorizontalAlign="Center" Width="180px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="UOM" HeaderText="UOM">
+                                        <ItemStyle VerticalAlign="Middle" Width="100px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Qty" HeaderText="Qty">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Rate" HeaderText="Rate">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Amount" HeaderText="Amount">
+                                        <ItemStyle VerticalAlign="Middle" Width="100px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Discount" HeaderText="Discount">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Taxable" HeaderText="Taxable">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="CGSTRate" HeaderText="CGST Rate">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="CGSTAmount" HeaderText="CGST Amount">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="SGSTRate" HeaderText="SGST Rate">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="SGSTAmount" HeaderText="SGST Amount">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="TotalValue" HeaderText="Total Value">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:TemplateField HeaderText="Delete?">
+                                        <ItemTemplate>
+                                            <span onclick="return confirm('Are you sure to Delete the record?')">
+                                                <asp:LinkButton ID="lnkB" runat="Server" Text="Delete" CommandName="Delete"></asp:LinkButton>
+                                            </span>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                    </fieldset>
+                </ContentTemplate>
+                 <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="txtItemName" EventName="SelectedIndexChanged" />
+                </Triggers>
+            </asp:UpdatePanel>
+
+        </div>
+
+    </form>
+</asp:Content>
+

@@ -1,0 +1,668 @@
+<!DOCTYPE html5>
+<html >
+
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	
+	<title>Invoice</title>
+	
+	<!-- <link rel='stylesheet' type='text/css' href='css/style.css' />
+	<link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+	<script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+	<script type='text/javascript' src='js/example.js'></script> -->
+
+</head>
+
+<body style="font: 14px/1.4 Arial, serif;
+  background-color: #fff;">
+	<div id="page-wrap" style="width: 800px; margin: 0 auto; " >
+		<div id="header" style="width: 100%;  background: #fff;  text-align: center;  color: #000;  font-weight: bold;  font-size: 18px;
+  letter-spacing: .5px;  padding: 20px 0px 10px 0;" >Tax Invoice</div>		
+		<div style="clear:both"></div>
+		<div id="customer"  >
+			<table style="padding: 1px 4px; width: 100%;  border-collapse: collapse;  border: solid 1px #888;">
+				<tr style="padding: 1px 4px;" >
+					<td class="half" style="width: 50%;border:solid 1px #888" >
+						<table class="no_border seller" style="border: none;
+    border-collapse: collapse; padding: 1px 4px;" >
+							<tr style="border: none;padding: 1px 4px;">
+								<th class="main_title" style="padding: 5px;font-size: 15px;float: left;text-transform: uppercase;font-weight: bold;" >
+									Seva Enterprises (17-18)
+								</th>
+							</tr>
+							<tr  style="padding: 1px 4px;">
+								<td style="border: none;">Shop No. 5, City Center, Sarda Circle,</td>
+							</tr>
+							<tr  style="padding: 1px 4px;">
+								<td style="border: none;">
+									Ph. 0253-256645
+								</td>
+							</tr>
+							<tr style="padding: 1px 4px;">
+								<td style="border: none;">
+									Dealer :-SF/Exide Batteries
+								</td>
+							</tr>
+							<tr style="padding: 1px 4px;">
+								<td style="border: none;">
+									GSTIN/UIN : 27AAHPBB102D1ZY
+								</td>
+							</tr>
+							<tr style="padding: 1px 4px;">
+								<td style="border: none;">
+									State Name : Maharashtra, Code: 27
+								</td>
+							</tr>
+							<tr style="padding: 1px 4px;">
+								<td style="border: none;">
+									Email : narindersahani@gmail.com
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td rowspan="2" class="half invoice_details" style="width: 50%;padding: 1px 4px;line-height: normal;vertical-align: top;padding-left: 0;padding-right: 0; "  >
+						<table width="100%" style="border-collapse: collapse;">
+							<tr>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888; border-left: 0; width: 50%;" >
+									<div class="two_row">
+										<div class="text_first" style="padding-bottom: 8px;float: none;" >
+											Invoice No.
+										</div>
+										<div class="text_second" style="float: none;font-weight: bold" >
+											GST/17-18/5169
+										</div>
+									</div>
+								</td>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;    width: 50%;  border-right: 0;">
+									<div class="two_row">
+										<div class="text_first" style="padding-bottom: 8px;float: none;">
+											Dated
+										</div>
+										<div class="text_second" style="float: none;font-weight: bold" >
+											10/02/2018
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;  border-left: 0; width: 50%;">
+									<div class="two_row">
+										<div class="text_first" style="padding-bottom: 8px;float: none;">
+											Delivery Note
+										</div>
+										<div class="text_second" style="float: none;font-weight: bold">
+											GST/17-18/5169
+										</div>
+									</div>
+								</td>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;   width: 50%;  border-right: 0;">
+									
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;  border-left: 0; width: 50%;">
+									<div class="two_row">
+										<div class="text_first">
+											Supplier's ref.
+										</div>
+										<div class="text_second">
+											GST/17-18/5169
+										</div>
+									</div>
+								</td>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;   width: 50%;  border-right: 0;">
+									<div class="two_row">
+										<div class="text_first">
+											Other Reference(s)
+										</div>
+										<div class="text_second">
+											GST/17-18/5169
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;  border-left: 0; width: 50%;">
+									<div class="two_row">
+										<div class="text_first">
+											Despatch Document No.
+										</div>
+										<div class="text_second">
+											GST/17-18/5169
+										</div>
+									</div>
+								</td>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;   width: 50%;  border-right: 0;">
+									<div class="two_row">
+										<div class="text_first">
+											Delivery note Date
+										</div>
+										<div class="text_second">
+											60-Nov-2017
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;  border-left: 0; width: 50%;">
+									<div class="two_row">
+										<div class="text_first">
+											Despatch through
+										</div>
+										<div class="text_second">
+											
+										</div>
+									</div>
+								</td>
+								<td style="text-align: left;padding: 5px;    border: solid 1px #888;   width: 50%;  border-right: 0;" >
+									<div class="two_row">
+										<div class="text_first">
+											Destination
+										</div>
+										<div class="text_second">
+											
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="half" style="width: 50%;" >
+						<table class="no_border buyer">
+							<tr>
+								<td class="buyer_title">Buyes</td>
+							</tr>
+							<tr>
+								<th class="main_title" style="padding: 5px;font-size: 15px;float: left;text-transform: uppercase;font-weight: bold;">ORnate System</th>
+							</tr>
+							<tr>
+								<td>
+									1St. Floor, Gokhale Park, Near Mahila Bank, Ashoka Stambh, Nasik
+								</td>
+							</tr>
+							<tr>
+								<td>
+									0253-5786521/987548585
+								</td>
+							</tr>
+							<tr>
+								<td>
+									GSTIN/UIN : 27AAHPBB102D1ZY
+								</td>
+							</tr>
+							<tr>
+								<td>
+									State Name : Maharashtra, Code: 27
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<table class="items"  style="  clear: both;  width: 100%;  margin: 20px 0 0 0;  border: 1px solid black;border-collapse:collapse " >
+		  	<tr class="items_heading"  style="background: #eee;" >
+		      	<td class="ser_no"  style="text-align: left;width: 10px;" >Sl No.</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;" >Description of Goods</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;">HSN/SAC</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;">Quantity</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;">Rate</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;">Per</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;">Disc. %</td>
+		      	<td  style="font-size: 14px;padding: 1px 2px;vertical-align: top; text-align: center;">Amount</td>
+		  	</tr>
+		  	<tr class="item-row">
+		  		<td style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		  			1
+		  		</td>
+	      		<td class="description"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+      				<div class="product_name">
+      					FMK0-MK 1440-TZ4
+      					<i>MH7M260621-7H7</i>
+      				</div>
+	      		</td>
+		      	<td class="hsn_sac"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		8706
+		      	</td>
+		      	<td class="qty"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		<b>1 NOS</b>
+		      	</td>
+		      	<td class="rate"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		643.00
+		      	</td>
+		      	<td class="per"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		NOS
+		      	</td>
+		      	<td class="discount"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		
+		      	</td>
+		      	<td class="amount"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		643.00
+		      	</td>
+		  	</tr>
+		  	<tr class="item-row">
+		  		<td  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		  			1
+		  		</td>
+	      		<td class="description"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+      				<div class="product_name">
+      					FMK0-MK 1440-TZ4
+      					<i>MH7M260621-7H7</i>
+      				</div>
+	      		</td>
+		      	<td class="hsn_sac"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		8706
+		      	</td>
+		      	<td class="qty"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		<b>1 NOS</b>
+		      	</td>
+		      	<td class="rate"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		643.00
+		      	</td>
+		      	<td class="per"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		NOS
+		      	</td>
+		      	<td class="discount"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		
+		      	</td>
+		      	<td class="amount"  style="border-bottom: 0; border-top: 0;vertical-align: top; padding: 5px 3px;border:solid 1px #888" >
+		      		643.00
+		      	</td>
+		  	</tr>
+
+		  	<!--blank row for spacing by 15px -->
+		  	<tr class="item-row blank">
+		  		<td style="padding-bottom: 15px;" >
+		  			
+		  		</td>
+	      		<td class="description right">
+      				
+	      		</td>
+		      	<td class="hsn_sac">
+		      		
+		      	</td>
+		      	<td class="qty">
+		      		
+		      	</td>
+		      	<td class="rate">
+		      		
+		      	</td>
+		      	<td class="per">
+		      		
+		      	</td>
+		      	<td class="discount">
+		      		
+		      	</td>
+		      	<td class="amount">
+					
+		      	</td>
+		  	</tr>
+		  	<!--blank row for spacing by 15px -->
+		  	<tr class="item-row blank">
+		  		<td>
+		  			
+		  		</td>
+	      		<td class="description right">
+      				
+	      		</td>
+		      	<td class="hsn_sac">
+		      		
+		      	</td>
+		      	<td class="qty">
+		      		
+		      	</td>
+		      	<td class="rate">
+		      		
+		      	</td>
+		      	<td class="per">
+		      		
+		      	</td>
+		      	<td class="discount">
+		      		
+		      	</td>
+		      	<td class="amount">
+					
+		      	</td>
+		  	</tr>
+			<!--GST info here-->
+		  	<tr class="item-row gst_details">
+		  		<td>
+		  			
+		  		</td>
+	      		<td class="description right" style="text-align:right" >
+      				<b>CGST</b>
+	      		</td>
+		      	<td class="hsn_sac">
+		      		
+		      	</td>
+		      	<td class="qty">
+		      		
+		      	</td>
+		      	<td class="rate">
+		      		
+		      	</td>
+		      	<td class="per">
+		      		
+		      	</td>
+		      	<td class="discount">
+		      		
+		      	</td>
+		      	<td class="amount">
+					90.02
+		      	</td>
+		  	</tr>
+		  	<tr class="item-row gst_details">
+		  		<td>
+		  			
+		  		</td>
+	      		<td class="description right" style="text-align:right" >
+      				<b>SGST</b>
+	      		</td>
+		      	<td class="hsn_sac">
+		      		
+		      	</td>
+		      	<td class="qty">
+		      		
+		      	</td>
+		      	<td class="rate">
+		      		
+		      	</td>
+		      	<td class="per">
+		      		
+		      	</td>
+		      	<td class="discount">
+		      		
+		      	</td>
+		      	<td class="amount">
+					90.02
+		      	</td>
+		  	</tr>
+		  	<tr class="item-row gst_details">
+		  		<td>
+		  			
+		  		</td>
+	      		<td class="description right">
+	      			<table class="no_border">
+	      				<tr>
+	      					<td style="font-style: italic; line-height: normal;font-weight: bold; padding-top: 1px; padding-bottom: 1px;
+    text-transform: uppercase"  >Less:</td>
+	      					<td class="right"  style="text-align:right" ><b>Round Off</b></td>
+	      				</tr>
+	      			</table>
+	      		</td>
+		      	<td class="hsn_sac">
+		      		
+		      	</td>
+		      	<td class="qty">
+		      		
+		      	</td>
+		      	<td class="rate">
+		      		
+		      	</td>
+		      	<td class="per">
+		      		
+		      	</td>
+		      	<td class="discount">
+		      		
+		      	</td>
+		      	<td class="amount">
+					(-)0.04
+		      	</td>
+		  	</tr>
+		  	<!--GST info end here-->
+
+  		  	<!--blank row for spacing by 15px -->
+  		  	<tr class="item-row blank">
+  		  		<td>
+  		  			
+  		  		</td>
+  	      		<td class="description right">
+  	     				
+  	      		</td>
+  		      	<td class="hsn_sac">
+  		      		
+  		      	</td>
+  		      	<td class="qty">
+  		      		
+  		      	</td>
+  		      	<td class="rate">
+  		      		
+  		      	</td>
+  		      	<td class="per">
+  		      		
+  		      	</td>
+  		      	<td class="discount">
+  		      		
+  		      	</td>
+  		      	<td class="amount">
+  					
+  		      	</td>
+  		  	</tr>
+  		  	<!--blank row for spacing by 15px -->
+  		  	<tr class="item-row blank">
+  		  		<td>
+  		  			
+  		  		</td>
+  	      		<td class="description right">
+  	     				
+  	      		</td>
+  		      	<td class="hsn_sac">
+  		      		
+  		      	</td>
+  		      	<td class="qty">
+  		      		
+  		      	</td>
+  		      	<td class="rate">
+  		      		
+  		      	</td>
+  		      	<td class="per">
+  		      		
+  		      	</td>
+  		      	<td class="discount">
+  		      		
+  		      	</td>
+  		      	<td class="amount">
+  					
+  		      	</td>
+  		  	</tr>
+		  	<tr class="item-row item_total_row">
+		  		<td style="border-top: solid 1px;" >
+		  			
+		  		</td>
+	      		<td class="description right"  style="border-top: solid 1px;">
+	      			Total
+	      		</td>
+		      	<td class="hsn_sac"  style="border-top: solid 1px;">
+		      		
+		      	</td>
+		      	<td class="qty"  style="border-top: solid 1px;">
+		      		<b>2 NOS</b>
+		      	</td>
+		      	<td class="rate"  style="border-top: solid 1px;">
+		      		
+		      	</td>
+		      	<td class="per"  style="border-top: solid 1px;">
+		      		
+		      	</td>
+		      	<td class="discount"  style="border-top: solid 1px;">
+		      		
+		      	</td>
+		      	<td class="amount"  style="border-top: solid 1px;">
+		      		643.00
+		      	</td>
+		  	</tr>
+  		  	<tr class="item-row border_top amount_in_word_holder">
+  		  		<td colspan="8">
+  		  			<table class="no_border">
+  		  				<tr>
+  		  					<td>Amount chanrgable (In Word)</td>
+  		  					<td class="text_right" style="text-align: right;" >
+  		  						E. & O.E 	
+  		  					</td>
+  		  				</tr>
+  		  				<tr>
+  		  					<td colspan="2" class="amount_in_word_text main_title">
+  		  						Indian Rupees Eight Hundred Twenty Three Only.
+  		  					</td>
+  		  				</tr>
+  		  			</table>
+  		  		</td>
+  		  	</tr>
+			<tr class="total_amount_details">
+				<td colspan="2" rowspan="2" class="text_center hsn_col"  style="text-align: center;text-align: left; padding: 5px;border: solid 1px #888;" >
+					HSN/SAC
+				</td>
+				
+				<td rowspan="2" class="text_center taxable_val" style="text-align: center;text-align: left; padding: 5px; border: solid 1px #888;" >
+					Taxable Value
+				</td>
+				<td colspan="2" class="text_center central_tax_col" style="text-align: center;text-align: left; padding: 5px; border: solid 1px #888;" >
+					Central Tax
+				</td>
+				<td colspan="2" class="text_center state_tax_col" style="text-align: center;text-align: left; padding: 5px; border: solid 1px #888;" >
+					State Tax
+				</td>
+				<td rowspan="2" class="text_center total_tam_amt_col" style="text-align: center;text-align: left; padding: 5px; border: solid 1px #888;" >
+					Total Tax Amount
+				</td>
+			</tr>
+			<tr class="total_amount_details">
+				<td style="text-align: left; padding: 5px; border: solid 1px #888;" >Rate</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">Amount</td>
+				<td style="text-align: left; padding: 5px; border: solid 1px #888;">Rate</td>
+				<td style="text-align: left; padding: 5px; border: solid 1px #888;">Amount</td>
+			</tr>
+			<tr class="total_amount_details">
+				<td colspan="2" style=" style="text-align: left; padding: 5px; border: solid 1px #888;"" >8507</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">634.00</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">14%</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">90.02</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">14%</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">90.02</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">180.04</td>
+			</tr>
+			<tr class="total_amount_details">
+				<td colspan="2" class="text_right" style="text-align: right; padding: 5px; border: solid 1px #888;" >Total</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">634.00</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;"></td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;" >90.02</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;" ></td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">90.02</td>
+				<td  style="text-align: left; padding: 5px; border: solid 1px #888;">180.04</td>
+			</tr>
+			<tr class="footer">
+				<td colspan="8" class="last_col_no_padd">
+					<table class="no_border footer_inner_main">
+						<tr>
+							<td colspan="2">
+								Tax Amount (in words) : <b>Indian Rupees Eight Hundred Twenty Three Only.</b>
+							</td>
+						</tr>
+						<tr class="footer_tr_blank_space">
+							<td colspan="2"></td>
+						</tr>
+						<tr class="footer_tr_blank_space">
+							<td colspan="2"></td>
+						</tr>
+						<tr class="footer_tr_blank_space">
+							<td colspan="2"></td>
+						</tr>
+						<tr>
+							<td class="half" style="width: 50%;" >
+								<table class="no_border footer_company_dteail">
+									<tr>
+										<td class="footer_company_dteail">
+											Campany's VAT TIN
+										</td>
+										<td>:</td>
+										<th style="padding: 5px;">25625485452 - V</th>
+									</tr>
+									<tr>
+										<td>
+											Campany's CST No
+										</td>
+										<td>:</td>
+										<th style="padding: 5px;">25625485452 - V</th>
+									</tr>
+									<tr>
+										<td>
+											Buyer's VAT TIN
+										</td>
+										<td>:</td>
+										<th style="padding: 5px;">25625485452 - V</th>
+									</tr>
+									<tr>
+										<td>
+											Campany's PAN
+										</td>
+										<td>:</td>
+										<th style="padding: 5px;">25625485452 - V</th>
+									</tr>
+								</table>
+							</td>
+							<td class="half" style="width: 50%;" ></td>
+						</tr>
+						<tr>
+							<td class="half" style="width: 50%;" >
+								<b><u>Declairation</u></b>
+							</td>
+							<td class="half" style="width: 50%;" >
+								<table class="no_border company_lbt">
+									<tr>
+										<td>Company's LBT No</td>
+										<td>:</td>
+										<th style="padding: 5px;" >NSK700376</th>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="half desclaimer" style="width: 50%;" >
+								I/We hereby certify that my/our registration certificate  under the Maharashtra Value Added Tax Act, 2002 is in force on the date on which the sale of the goods specified in this tax invoice is made by me/us and that the transaction of sale covered by this tax invoice has been effected by me/us and it shall be accounted for in the turnover of sales while filing of return  and the due tax, if any, payable on the sale has been paid or shall be paid"
+							</td>
+							<td class="half signatory" style="width: 50%;border-left: solid 1px; border-top: solid 1px; padding-right: 5px;" >
+								<table class="no_border company_lbt">
+									<tr>
+										<td class="" colspan="3">
+											<table class="no_border">
+												<tr>
+													<td class="text_right" style="text-align: right;" >
+														for <span class="cap" style="text-transform: uppercase;" > <b>Seve Enterprises (17-18)</b></span>
+													</td>
+												</tr>
+												<tr class="footer_tr_blank_space">
+													<td ></td>
+												</tr>
+												<tr class="footer_tr_blank_space">
+													<td ></td>
+												</tr>
+												<tr class="footer_tr_blank_space">
+													<td ></td>
+												</tr>
+												<tr class="footer_tr_blank_space">
+													<td ></td>
+												</tr>
+												<tr>
+													<td class="text_right" style="text-align: right;" >
+														Authorised Signatory
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<div id="terms">
+		  	This is a Computer Generated Invoice
+		</div>
+	</div>
+</body>
+
+</html>

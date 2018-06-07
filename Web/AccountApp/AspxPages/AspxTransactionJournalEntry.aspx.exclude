@@ -1,0 +1,72 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Master/Account.master" AutoEventWireup="false" CodeFile="AspxTransactionJournalEntry.aspx.vb" Inherits="AspxPages_AspxTransactionJournalEntry" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+ <script>
+     $(setup)
+
+     function setup() {
+         $('.intro select').zelect({ placeholder: 'Plz select...' })
+     }
+
+    
+    </script>
+     <script src="../Resource/js/image_zoom/jquery.zoom.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $('#ex1').zoom();
+        $('#ex2').zoom({ on: 'grab' });
+        $('#ex3').zoom({ on: 'click' });
+        $('#ex4').zoom({ on: 'toggle' });
+    });
+</script>
+<form id="FrmUploadTransaction" runat="server" role="form">
+        <asp:HiddenField ID="HdnIdentity" runat="server" ClientIDMode="Static" />
+        <div class="heading24">
+        <strong>Transaction JournalEntry</strong></div>
+    <div class="company_box">
+        <div id="resultsel1" style="display: block" class="info_image">
+          <span class='zoom' id='ex1'>
+                <img id="imgprvw" runat="server" src='../Upload/Transaction/UploadTransaction.png' alt='Daisy on the Ohoopee'/>
+                <p>Hover for zoom.</p>
+            </span>
+           
+        </div>
+        <div id="resultselright" style="display: block" class="info_box">
+            <div class="form-group col-md-6" style="overflow: scroll; height: 445px;">
+                <div class="company_list">
+                    <label id="Label5" runat="server">
+                        Company</label>
+                  <section class="intro">
+                        <asp:DropDownList ID="DDLCompany" runat="server" TabIndex="1" class="chosen-select" />
+                    </section>
+                </div>
+                <div class="company_list">
+                    <label id="Label1" runat="server">
+                        Transaction Type</label>
+                     <section class="intro">
+                        <asp:DropDownList ID="DDLTransaction" runat="server" TabIndex="2" class="chosen-select" />
+                    </section>
+                </div>
+                <div class="company_list">
+                    <label id="Label2" runat="server">
+                        Purchase ID / Sales ID / Receipt ID / Payment ID/ Journal ID</label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" id="TxtTransactionId" placeholder="Purchase ID / Sales ID / Receipt ID / Payment ID/ Journal ID"
+                            clientidmode="Static" tabindex="3" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="submit_btn" OnClientClick="return validate()" 
+                        TabIndex="14" />
+               
+                    <asp:Button ID="btnreset" runat="server" Text="Reset" CssClass="submit_btn" TabIndex="15" 
+                        OnClientClick="return resetFields()" />
+                </div>
+            </div>
+        </div>
+    </div>
+        </form>
+</asp:Content>
+

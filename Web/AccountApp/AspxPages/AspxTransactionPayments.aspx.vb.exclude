@@ -1,0 +1,85 @@
+﻿Imports System.Data
+Imports System.Globalization
+
+Partial Class AspxPages_AspxTransactionPayments
+    Inherits System.Web.UI.Page
+    Public StrDateFormat As String = String.Empty
+    Public StrPDate As String = String.Empty
+    Protected Sub Page_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+        StrDateFormat = System.Configuration.ConfigurationManager.AppSettings("StrDateFormat").ToString()
+        Dim clsfn As New ClsCommonFunction
+        StrPDate = (clsfn.fnChangeDateFormat(Now.Date(), "1", "/", "2", 0))
+        clsfn = Nothing
+        If Not IsPostBack Then
+            TxtPaymentDate.Text = StrPDate
+            If IsNothing(Request.QueryString("SearchKey")) Then
+                DirectCast(Page.Master.FindControl("lblSiteMap"), Label).Text = "Screen: Add New - " & Session("ScreenName").ToString
+            Else
+                DirectCast(Page.Master.FindControl("lblSiteMap"), Label).Text = "Screen: Edit - " & Session("ScreenName").ToString
+                HdnIdentity.Value = Request.QueryString("SearchKey")
+                fnFillScreen()
+            End If
+        End If
+    End Sub
+    Private Sub fnFillScreen()
+        Dim DtsSearchData As New DataSet
+        Dim StrQrySearch As New StringBuilder
+        StrQrySearch.Append(" select '../' + UploadTransactionFileName as 'TranImage', IdTransactionType, DefinationCode + ' - ' + DefinationDesc as 'TransactionType', idUPloadTransaction ")
+        StrQrySearch.Append(" IdClient, TxtCompanyName as 'ClientName', TxtMailingAddress + ', ' + TxtState + ', ' + TxtPIN as 'ClientAddress', TxtTelephoneNo + ', ' + TxtMobile + ', ' + TxtEmail  as 'ClientContacts', TransactionID ")
+        StrQrySearch.Append(" from tbl_UPloadTransaction ")
+        StrQrySearch.Append(" Left outer join tbl_defination TT on TT.idDefination = idTransactionType ")
+        StrQrySearch.Append(" Left outer join tbl_client on Idclient = idCompany ")
+        StrQrySearch.Append(" where idUPloadTransaction = " & HdnIdentity.Value & "")
+        Dim clsobj As New clsData
+        DtsSearchData = clsobj.fnDataSet(StrQrySearch.ToString, CommandType.Text)
+        clsobj = Nothing
+        If Not IsNothing(DtsSearchData) Then
+            If DtsSearchData.Tables.Count > 0 Then
+                If DtsSearchData.Tables(0).Rows.Count > 0 Then
+                    imgprvw.Src = DtsSearchData.Tables(0).Rows(0)("TranImage")
+                    TxtPaymentNo.Value = DtsSearchData.Tables(0).Rows(0)("TransactionID").ToString()
+                    TxtPaymentBy.Value = DtsSearchData.Tables(0).Rows(0)("ClientName").ToString() & ", " & DtsSearchData.Tables(0).Rows(0)("ClientAddress").ToString()
+                End If
+            End If
+        End If
+        Dim dtstSearchDtls As New DataSet
+        clsobj = New clsData
+        dtstSearchDtls = clsobj.fnDataSet("Select * from tbl_Payments where PaymentsTransactionId=" & HdnIdentity.Value, 1, 1)
+        clsobj = Nothing
+        If dtstSearchDtls.Tables(0).Rows.Count > 0 Then
+            TxtPaymentDate.Text = dtstSearchDtls.Tables(0).Rows(0)("TxtPaymentsDate").ToString()
+            TxtPaymentFrom.Value = dtstSearchDtls.Tables(0).Rows(0)("TxtPaymentsFrom").ToString()
+            TxtPaymentNo.Value = dtstSearchDtls.Tables(0).Rows(0)("TxtPaymentsNo").ToString()
+            TxtBankName.Value = dtstSearchDtls.Tables(0).Rows(0)("TxtBankName").ToString()
+            TxtBankAccountNo.Value = dtstSearchDtls.Tables(0).Rows(0)("TxtBankAccountNo").ToString()
+            TxtPaymentBy.Value = dtstSearchDtls.Tables(0).Rows(0)("TxtPaymentsBy").ToString()
+            TxtPaymentAmount.Value = dtstSearchDtls.Tables(0).Rows(0)("TxtPaymentsAmount").ToString()
+        End If
+    End Sub
+
+    Protected Sub btnSave_Click(sender As Object, e As System.EventArgs) Handles btnSave.Click
+        Dim usDtfi As DateTimeFormatInfo = New CultureInfo("en-US", False).DateTimeFormat
+        Dim clsobj As New clsData
+        Dim StrLngId As String = String.Empty
+        Dim TxtPaymentsDate As DateTime = Convert.ToDateTime(TxtPaymentDate.Text, usDtfi)
+        Dim Names As String() = {"PaymentsTransactionId", "TxtPaymentsDate", "TxtPaymentsFrom", "TxtPaymentsNo", "TxtBankName", "TxtBankAccountNo", "TxtPaymentsBy", "TxtPaymentsAmount"}
+        Dim Values As String() = {HdnIdentity.Value, TxtPaymentsDate, TxtPaymentFrom.Value, TxtPaymentNo.Value, TxtBankName.Value, TxtBankAccountNo.Value, TxtPaymentBy.Value, TxtPaymentAmount.Value}
+        StrLngId = DirectCast(clsobj.fnInsertUpdate("P_TransactionPayment", Names, Values), String)
+        If StrLngId.Length > 0 Then
+            HdnIdentity.Value = String.Empty.ToString()
+            If IsNumeric(StrLngId) = True Then
+                If CInt(StrLngId) > 0 Then
+                    ClientScript.RegisterStartupScript(Page.GetType(), "AlertMsg", "<script type='text/javascript' language='javascript'>alert('Payment Created');</script>")
+                    Response.Redirect("AspxSearchList.aspx?idMenu=" & Session("IdMenu"), False)
+                Else
+                    Page.ClientScript.RegisterClientScriptBlock(Page.GetType(), "RegisterClientScriptBlock", "document.write ('" & StrLngId & "');", True)
+                End If
+            Else
+                StrLngId = "alert('" & StrLngId & "')"
+                ScriptManager.RegisterStartupScript(Me.Page, Me.GetType(), "k1", StrLngId, True)
+            End If
+        Else
+            ClientScript.RegisterStartupScript(Page.GetType(), "AlertMsg", "<script type='text/javascript' language='javascript'>alert('" & StrLngId & "'); location.href='" & Session("BackPage").ToString() & "';</script>")
+        End If
+    End Sub
+End Class

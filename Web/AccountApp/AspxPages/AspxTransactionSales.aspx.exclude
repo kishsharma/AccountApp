@@ -1,0 +1,653 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Master/Account.master" AutoEventWireup="false" CodeFile="AspxTransactionSales.aspx.vb" Inherits="AspxPages_AspxTransactionSales" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+  <script src="../Resource/js/image_zoom/jquery.zoom.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $('#ex1').zoom();
+        $('#ex2').zoom({ on: 'grab' });
+        $('#ex3').zoom({ on: 'click' });
+        $('#ex4').zoom({ on: 'toggle' });
+    });
+</script>
+ <script>
+     $(function () {
+         $("#TxtSalesDate").datepicker({ dateFormat: 'dd-M-yy' }).val();
+     });
+    </script>
+ <form id="FrmUploadTransaction" runat="server" role="form">
+ <style>
+        .heading15
+        {
+            float: left;
+            width: 98%;
+            height: auto;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            color: #000000;
+            text-transform: uppercase;
+            padding: 0px 0 10px 0;
+        }
+    </style>
+ <asp:ScriptManager ID="SMLocationMaster" runat="server" EnablePageMethods="true"
+        ScriptMode="Release">
+    </asp:ScriptManager>
+    <asp:HiddenField ID="HdnIdentity" runat="server" ClientIDMode="Static" />
+    <div class="heading24">
+        <strong>Transaction Sales</strong></div>
+    <div class="company_box">
+        <div id="resultsel1" style="display: block" class="info_image">
+            <span class='zoom' id='ex1'>
+                <img id="imgprvw" runat="server" src='../Upload/Transaction/UploadTransaction.png' alt='Daisy on the Ohoopee'/>
+                <p>Hover for zoom.</p>
+            </span>
+        </div>
+        <div id="resultselright" style="display: block" class="info_box">
+         <div align="center">
+                <label id="Label3" runat="server">
+                    Name and Address of Buyer</label>
+                <div align="left">
+                    <label id="LblBuyerName" runat="server">
+                        Company</label>
+                    <label id="LblBuyerAddress" runat="server">
+                        CompanyAddress</label><br />
+                    <label id="LblECCNo" runat="server">
+                        ECCNo</label>
+                    <label id="LblCSTTINNO" runat="server">
+                        CSTTINNO</label>
+                    <label id="LblVATTINNO" runat="server">
+                        VATTINNO</label>
+                </div>
+            </div>
+             <div class="form-group col-md-6" style="overflow: scroll; height: 445px;">
+                <div class="company_list company_list2 date_box">
+                    <label id="lblSales" runat="server">
+                        Sales Date</label>
+                    <asp:TextBox ID="TxtSalesDate" runat="server" ClientIDMode="Static" class="form-control"
+                        placeholder="Receipt Date" TabIndex="2" MaxLength="11" />
+                </div>
+                <div class="company_list company_list2">
+                    <label id="Label2" runat="server">
+                        Bill No</label>
+                    <input type="text" class="form-control" runat="server" id="TxtTransactionId" placeholder=" Bill No"
+                        clientidmode="Static" tabindex="3" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                </div>
+                <div class="company_list">
+                    <label id="Label1" runat="server">
+                        Name of Party</label>
+                    <input type="text" class="form-control" runat="server" id="TxtNameofParty" placeholder=" Name of Party"
+                        clientidmode="Static" tabindex="4" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                </div>
+                <div class="company_list">
+                    <label id="Label31" runat="server">
+                        Party Address</label>
+                    <input type="text" class="form-control" runat="server" id="TxtPartyAddress" placeholder=" Party Address"
+                        clientidmode="Static" tabindex="5" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                </div>
+                <div class="company_list company_list2">
+                    <label id="Label4" runat="server">
+                        City</label>
+                    <input type="text" class="form-control" runat="server" id="TxtCity" placeholder=" City"
+                        clientidmode="Static" tabindex="6" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                </div>
+                <div class="company_list company_list2">
+                    <label id="Label6" runat="server">
+                        Excise No/ServiceTax No</label>
+                    <input type="text" class="form-control" runat="server" id="TxtExcNoSrvceTaxNo" placeholder=" Excise No/ Service Tax No"
+                        clientidmode="Static" tabindex="7" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                </div>
+                <div class="company_list company_list2">
+                    <label id="Label7" runat="server">
+                        Tin No</label>
+                    <asp:TextBox ID="TxtTinNo" class="form-control" runat="server" placeholder=" Tin No"
+                        ClientIDMode="Static" AutoPostBack="true" TabIndex="8" MaxLength="100" onkeypress="return IsNumeric(event);"></asp:TextBox>
+                </div>
+                <br />
+                <div class="heading15" style="font-weight: bold; margin: 20px 0px 0px; color: #fff;
+                    padding: 9px 10px; background-color: #00bcd5">
+                    <h2>
+                        Purchase:</h2>
+                </div>
+                <asp:UpdatePanel ID="updtPnlPopUp1" runat="server">
+                    <ContentTemplate>
+                        <fieldset>
+                            <div class="company_list">
+                                <label id="Label8" runat="server">
+                                    Item Name</label>
+                                <input type="text" class="form-control" runat="server" id="txtItemName" placeholder=" Item Name"
+                                    clientidmode="Static" tabindex="9" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                            </div>
+                            <div class="company_list company_list3">
+                                <label id="Label9" runat="server">
+                                    Measure</label>
+                                <asp:DropDownList ID="ddlMeasure" class="chosen-select" runat="server" AutoPostBack="true"
+                                    TabIndex="10" />
+                            </div>
+                            <div class="company_list company_list3">
+                                <label id="Label10" runat="server">
+                                    Nos.</label>
+                                <input type="text" class="form-control" runat="server" id="txtNos" placeholder=" Nos."
+                                    clientidmode="Static" tabindex="11" maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                            </div>
+                            <div class="company_list company_list3">
+                                <label id="Label11" runat="server">
+                                    Rate</label>
+                                <input type="text" class="form-control" runat="server" id="txtRate" placeholder=" Rate"
+                                    clientidmode="Static" tabindex="12" maxlength="100" onkeypress="return IsNumericforDecimal(event);" />
+                            </div>
+                            <div class="company_list company_list3">
+                                <label id="Label12" runat="server">
+                                    Duty Tax %
+                                </label>
+                                <input type="text" class="form-control" runat="server" id="txtDutyTax" placeholder=" Duty Tax %"
+                                    clientidmode="Static" tabindex="13" maxlength="100" onkeyup="CalculateRateDiscount(this.value);"
+                                    onkeypress="return IsNumericforDecimal(event);" />
+                            </div>
+                            <div class="company_list company_list3">
+                                <label id="Label29" runat="server">
+                                    Duty Tax Value
+                                </label>
+                                <input type="text" disabled="disabled" class="form-control" runat="server" id="txtDutyTaxValue"
+                                    placeholder=" Duty Tax Value" clientidmode="Static" tabindex="14" maxlength="100"
+                                    onkeypress="return IsAlphaNumeric(event);" />
+                            </div>
+                            <div class="company_list company_list3">
+                                <label id="Label13" runat="server">
+                                    Assessable Value</label>
+                                <input type="text" disabled="disabled" class="form-control" runat="server" id="txtAssessableValue"
+                                    placeholder=" Assessable Value" clientidmode="Static" tabindex="15" maxlength="100"
+                                    onkeypress="return IsAlphaNumeric(event);" />
+                            </div>
+                            <div class="company_list">
+                                <asp:Button ID="btnAddItem" runat="server" Text="Add Item" CssClass="submit_btn"
+                                    OnClientClick="return validate()" 
+                                    TabIndex="16" />
+                           
+                                <asp:Button ID="btnResetItem" runat="server" Text="Reset" CssClass="submit_btn" OnClientClick="return resetFields()"
+                                    />
+                            </div>
+                            <br />
+                            <br />
+                        </fieldset>
+                        <div class="heading15" style="border: thin">
+                            <asp:GridView ID="Gvdetails" HeaderStyle-ForeColor="White" ShowHeader="True" runat="server"
+                                AutoGenerateColumns="false">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="SlNo" ItemStyle-Width="37px">
+                                        <ItemStyle HorizontalAlign="Center" />
+                                        <ItemTemplate>
+                                            <%# Container.DataItemIndex+1 %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="ItemName" HeaderText="ItemName">
+                                        <ItemStyle VerticalAlign="Middle" HorizontalAlign="left" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Measure" HtmlEncode="false" HeaderText="Measure">
+                                        <ItemStyle VerticalAlign="Middle" HorizontalAlign="Center" Width="180px" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Nos" HeaderText="Nos">
+                                        <ItemStyle VerticalAlign="Middle" Width="100px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Rate" HeaderText="Rate">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="DutyTax" HeaderText="DutyTax">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="DutyTaxValue" HeaderText="DutyTaxValue">
+                                        <ItemStyle VerticalAlign="Middle" Width="100px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="AssessableValue" HeaderText="AssessableValue">
+                                        <ItemStyle VerticalAlign="Middle" Width="60px" HorizontalAlign="Right" />
+                                    </asp:BoundField>
+                                    <asp:TemplateField HeaderText="Delete?">
+                                        <ItemTemplate>
+                                            <span onclick="return confirm('Are you sure to Delete the record?')">
+                                                <asp:LinkButton ID="lnkB" runat="Server" Text="Delete" CommandName="Delete"></asp:LinkButton>
+                                            </span>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label30" runat="server">
+                                Total:</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <asp:TextBox ID="txtTotalValue" class="form-control" runat="server" placeholder=" Total Assessable Value"
+                                ClientIDMode="Static" MaxLength="100"></asp:TextBox>
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label14" runat="server">
+                                Discount %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <asp:TextBox ID="txtDiscount" class="form-control" runat="server" placeholder=" Discount %"
+                                AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                TabIndex="17" MaxLength="5"></asp:TextBox>
+                        </div>
+                        <div class="company_list company_list3">
+                            <asp:TextBox ID="txtDiscountValue" class="form-control" runat="server" placeholder=" Discount % Value"
+                                ClientIDMode="Static" MaxLength="100" Text="0.00" Style="text-align: right;"></asp:TextBox>
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label15" runat="server">
+                                Service Tax %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtServicetax" class="form-control" runat="server" placeholder=" Service Tax %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="18" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtServicetaxValue" placeholder=" Service Tax % Value"
+                                clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label16" runat="server">
+                                SBC %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtSbc" class="form-control" runat="server" placeholder=" SBC %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="19" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtSbcValue" placeholder=" SBC % Value"
+                                clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label17" runat="server">
+                                KKc %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtKkc" class="form-control" runat="server" placeholder=" KKc %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="20" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtKkcValue" placeholder=" KKc % Value"
+                                clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label18" runat="server">
+                                Excise Duty %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtexciseduty" class="form-control" runat="server" placeholder=" Excise Duty %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="21" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtexcisedutyValue" placeholder=" Excise Duty % Value"
+                                clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="lblMspurchase" runat="server">
+                                MS Purchase %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtMspurchase" class="form-control" runat="server" placeholder=" MS Purchase %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="22" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtMspurchaseValue" placeholder=" MS Purchase % Value"
+                                clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="lblOmspurchasecform" runat="server">
+                                OMS Purchase with 'C' form %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtOmspurchasecform" class="form-control" runat="server" placeholder=" OMS Pur. 'C' form %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="23" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtOmspurchasecformValue"
+                                placeholder=" OMS Pur. 'C' form % Value" clientidmode="Static" maxlength="100"
+                                onkeypress="return IsAlphaNumeric(event);" value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="lblOmspurchasefform" runat="server">
+                                OMS Purchase with 'F' form %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtOmspurchasefform" class="form-control" runat="server" placeholder=" OMS Pur. 'F' form %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="24" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtOmspurchasefformValue"
+                                placeholder=" OMS Pur. 'F' form Value" clientidmode="Static" maxlength="100"
+                                onkeypress="return IsAlphaNumeric(event);" value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="lblOmspurchasewocform" runat="server">
+                                OMS Purchase W/O 'C' form %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtOmspurchasewocform" class="form-control" runat="server" placeholder=" OMS Pur. W/O 'C' %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="25" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtOmspurchasewocformValue"
+                                placeholder=" OMS Pur. W/O 'C' Value" clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label23" runat="server">
+                                VAT Purchase %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtVatpurchase" class="form-control" runat="server" placeholder=" VAT Pur. %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="26" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtVatpurchaseValue" placeholder=" VAT Pur. Value"
+                                clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label24" runat="server">
+                                Works Contract Tax %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtWorkscontracttax" class="form-control" runat="server" placeholder=" WCTax %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="27" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtWorkscontracttaxValue"
+                                placeholder=" WCTax Value" clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label25" runat="server">
+                                Input VAT On CST %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtInputvatoncst" class="form-control" runat="server" placeholder=" Input VAT On CST %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="28" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtInputvatoncstValue"
+                                placeholder=" Input VAT On CST Value" clientidmode="Static" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label26" runat="server">
+                                Round Off ( + / - )</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtRoundoff" placeholder=" Round Off ( + / - )Value"
+                                clientidmode="Static" tabindex="29" maxlength="100" onkeypress="return IsAlphaNumeric(event);"
+                                value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label27" runat="server">
+                                Discount before Gross %</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                                <asp:TextBox ID="txtDiscountbeforegross" class="form-control" runat="server" placeholder=" Discount before Gross %"
+                                    AutoPostBack="True" onkeypress="return IsNumericforDecimal(event);" ClientIDMode="Static"
+                                    TabIndex="30" MaxLength="5"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtDiscountbeforegrossValue"
+                                placeholder=" Discount On Gross % Value" clientidmode="Static" maxlength="100"
+                                onkeypress="return IsAlphaNumeric(event);" value="0.00" style="text-align: right;" />
+                        </div>
+                        <div class="company_list company_list3">
+                            <label id="Label28" runat="server">
+                                Gross Amount</label>
+                        </div>
+                        <div class="company_list company_list3">
+                            <div align="center">
+                            </div>
+                        </div>
+                        <div class="company_list company_list3">
+                            <input type="text" class="form-control" runat="server" id="txtGrossamountValue" placeholder=" Gross Amount Value"
+                                clientidmode="Static" maxlength="100" value="0.00" style="text-align: right;" />
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            <div class="company_list">
+                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="submit_btn" OnClientClick="return validateOutSide()"
+                    TabIndex="31" />
+           
+                <asp:Button ID="btnreset" runat="server" Text="Reset" CssClass="submit_btn" OnClientClick="return resetFieldsOutside()" />
+            </div>
+        </div>
+    </div>
+    </form>
+    <script type="text/javascript" language="javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); //Tab
+        specialKeys.push(46); //Delete
+        specialKeys.push(36); //Home
+        specialKeys.push(35); //End
+        specialKeys.push(37); //Left
+        specialKeys.push(39); //Right
+
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || (specialKeys.indexOf(keyCode) != -1 && e.charCode != e.keyCode));
+            return ret;
+        }
+        function IsNumericforDecimal(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || keyCode == 46 || (specialKeys.indexOf(keyCode) != -1 && e.charCode != e.keyCode));
+            return ret;
+        }
+        function resetFields() {
+            document.getElementById("<%=txtItemName.ClientID%>").value = "";
+            document.getElementById("<%=txtNos.ClientID%>").value = "";
+            document.getElementById("<%=txtRate.ClientID%>").value = "";
+            document.getElementById("<%=txtDutyTax.ClientID%>").value = "";
+            document.getElementById("<%=txtDutyTaxValue.ClientID%>").value = "";
+            document.getElementById("<%=txtAssessableValue.ClientID%>").value = "";
+        }
+        function resetFieldsOutside() {
+            document.getElementById("<%=TxtTransactionId.ClientID%>").value = "";
+            document.getElementById("<%=TxtNameofParty.ClientID%>").value = "";
+            document.getElementById("<%=TxtPartyAddress.ClientID%>").value = "";
+            document.getElementById("<%=TxtCity.ClientID%>").value = "";
+            document.getElementById("<%=TxtExcNoSrvceTaxNo.ClientID%>").value = "";
+            document.getElementById("<%=TxtTinNo.ClientID%>").value = "";
+            document.getElementById("<%=txtDiscount.ClientID%>").value = "";
+            document.getElementById("<%=txtDiscountValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtServicetax.ClientID%>").value = "";
+            document.getElementById("<%=txtServicetaxValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtSbc.ClientID%>").value = "";
+            document.getElementById("<%=txtSbcValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtKkc.ClientID%>").value = "";
+            document.getElementById("<%=txtKkcValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtexciseduty.ClientID%>").value = "";
+            document.getElementById("<%=txtexcisedutyValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtMspurchase.ClientID%>").value = "";
+            document.getElementById("<%=txtMspurchaseValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtOmspurchasecform.ClientID%>").value = "";
+            document.getElementById("<%=txtOmspurchasecformValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtOmspurchasefform.ClientID%>").value = "";
+            document.getElementById("<%=txtOmspurchasefformValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtOmspurchasewocform.ClientID%>").value = "";
+            document.getElementById("<%=txtOmspurchasewocformValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtVatpurchase.ClientID%>").value = "";
+            document.getElementById("<%=txtVatpurchaseValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtWorkscontracttax.ClientID%>").value = "";
+            document.getElementById("<%=txtWorkscontracttaxValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtInputvatoncst.ClientID%>").value = "";
+            document.getElementById("<%=txtInputvatoncstValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtRoundoff.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtDiscountbeforegross.ClientID%>").value = "";
+            document.getElementById("<%=txtDiscountbeforegrossValue.ClientID%>").value = "0.00";
+            document.getElementById("<%=txtGrossamountValue.ClientID%>").value = "0.00";
+        }
+        function validate() {
+            if (document.getElementById("<%=txtItemName.ClientID %>").value.trim() == "") {
+                alert("Please Provide ItemName");
+                document.getElementById("<%=txtItemName.ClientID %>").focus();
+                return false;
+            }
+
+            if (document.getElementById("<%=txtNos.ClientID %>").value.trim() == "") {
+                alert("Please Provide Nos");
+                document.getElementById("<%=txtNos.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtRate.ClientID %>").value.trim() == "") {
+                alert("Please Provide Rate");
+                document.getElementById("<%=txtRate.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtDutyTax.ClientID %>").value.trim() == "") {
+                alert("Please Provide Tax");
+                document.getElementById("<%=txtDutyTax.ClientID %>").focus();
+                return false;
+            }
+        }
+        function validateOutSide() {
+            if (document.getElementById("<%=TxtNameofParty.ClientID %>").value.trim() == "") {
+                alert("Please Provide Party Name");
+                document.getElementById("<%=TxtNameofParty.ClientID %>").focus();
+                return false;
+            }
+
+            if (document.getElementById("<%=TxtCity.ClientID %>").value.trim() == "") {
+                alert("Please Provide City");
+                document.getElementById("<%=TxtCity.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtTransactionId.ClientID %>").value.trim() == "") {
+                alert("Please Provide BillNo");
+                document.getElementById("<%=TxtTransactionId.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtExcNoSrvceTaxNo.ClientID %>").value.trim() == "") {
+                alert("Please Provide ServiceTaxNo/ExcNo");
+                document.getElementById("<%=TxtExcNoSrvceTaxNo.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtTinNo.ClientID %>").value.trim() == "") {
+                alert("Please Provide TinNo");
+                document.getElementById("<%=TxtTinNo.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtDiscount.ClientID %>").value.trim() == "") {
+                alert("Please Provide Discount");
+                document.getElementById("<%=txtDiscount.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtServicetax.ClientID %>").value.trim() == "") {
+                alert("Please Provide Servicetax");
+                document.getElementById("<%=txtServicetax.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtSbc.ClientID %>").value.trim() == "") {
+                alert("Please Provide Sbc");
+                document.getElementById("<%=txtSbc.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtKkc.ClientID %>").value.trim() == "") {
+                alert("Please Provide Kkc");
+                document.getElementById("<%=txtKkc.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtexciseduty.ClientID %>").value.trim() == "") {
+                alert("Please Provide exciseduty");
+                document.getElementById("<%=txtexciseduty.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtVatpurchase.ClientID %>").value.trim() == "") {
+                alert("Please Provide Vatpurchase");
+                document.getElementById("<%=txtVatpurchase.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtWorkscontracttax.ClientID %>").value.trim() == "") {
+                alert("Please Provide Workscontracttax");
+                document.getElementById("<%=txtWorkscontracttax.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtInputvatoncst.ClientID %>").value.trim() == "") {
+                alert("Please Provide Inputvatoncst");
+                document.getElementById("<%=txtInputvatoncst.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=txtDiscountbeforegross.ClientID %>").value.trim() == "") {
+                alert("Please Provide Discountbeforegross");
+                document.getElementById("<%=txtDiscountbeforegross.ClientID %>").focus();
+                return false;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function CalculateRateDiscount(val) {
+            var tax = val;
+
+            if (tax != '') {
+                var nos = $get('<%=txtNos.ClientID %>').value;
+                var rate = $get('<%=txtRate.ClientID %>').value;
+                var amt = (nos * rate)
+                var taxamt = ((parseFloat(amt) / 100) * parseFloat(tax));
+                var totamt = (parseFloat(amt) + parseFloat(taxamt));
+                $get('<%=txtDutyTaxValue.ClientID %>').value = parseFloat(taxamt).toFixed(2);
+                $get('<%=txtAssessableValue.ClientID %>').value = parseFloat(totamt).toFixed(2);
+                //$('#<%=txtNos.ClientID %>').attr("disabled", "disabled");
+                //$('#<%=txtRate.ClientID %>').attr("disabled", "disabled");
+            }
+            else {
+
+                //$('#<%=txtNos.ClientID %>').removeAttr("disabled");
+                //$('#<%=txtRate.ClientID %>').removeAttr("disabled");
+            }
+        }
+    </script>
+</asp:Content>
+

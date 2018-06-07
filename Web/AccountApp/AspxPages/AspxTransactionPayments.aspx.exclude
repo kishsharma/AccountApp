@@ -1,0 +1,243 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Master/Account.master" AutoEventWireup="false" CodeFile="AspxTransactionPayments.aspx.vb" Inherits="AspxPages_AspxTransactionPayments" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<script>
+    $(function () {
+        $("#TxtPaymentDate").datepicker({ dateFormat: 'dd-M-yy' }).val();
+    });
+</script>
+ <script src="../Resource/js/image_zoom/jquery.zoom.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $('#ex1').zoom();
+        $('#ex2').zoom({ on: 'grab' });
+        $('#ex3').zoom({ on: 'click' });
+        $('#ex4').zoom({ on: 'toggle' });
+    });
+</script>
+    <form id="FrmUploadTransaction" runat="server" role="form">
+    <asp:HiddenField ID="HdndtFormatCode" runat="server" />
+    <asp:HiddenField ID="HdnIdentity" runat="server" ClientIDMode="Static" />
+    <div class="heading24">
+        <strong>Transaction Payment</strong></div>
+    <div class="company_box">
+        <div id="resultsel1" style="display: block" class="info_image">
+         <span class='zoom' id='ex1'>
+                <img id="imgprvw" runat="server" src='../Upload/Transaction/UploadTransaction.png' alt='Daisy on the Ohoopee'/>
+                <p>Hover for zoom.</p>
+            </span>
+         
+        </div>
+        <div id="resultselright" style="display: block" class="info_box">
+            <div class="form-group col-md-6" style="overflow: scroll; height: 445px;">
+                <div class="company_list date_box">
+                    <label id="Label5" runat="server">
+                        Payment Date</label>
+                    <div align="center">
+                        <asp:TextBox ID="TxtPaymentDate" runat="server" ClientIDMode="Static" class="form-control"
+                            placeholder="Payment Date" TabIndex="1" MaxLength="11"/>
+                      
+                    </div>
+                </div>
+                <div class="company_list">
+                    <label id="Label1" runat="server">
+                        Received From
+                    </label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" id="TxtPaymentFrom" placeholder="Received From"
+                            clientidmode="Static" tabindex="2" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <label>
+                    </label>
+                    <label id="Label4" runat="server">
+                        Payment No. / Cheque No.</label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" id="TxtPaymentNo" placeholder="Payment No. / Cheque No."
+                            clientidmode="Static" tabindex="3" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <label id="Label3" runat="server">
+                        Bank Name, Branch (in case of Cheque No.)</label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" id="TxtBankName" placeholder="Bank Name, Branch"
+                            clientidmode="Static" tabindex="3" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <label id="Label7" runat="server">
+                        Bank Account No (in case of Cheque No.)</label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" id="TxtBankAccountNo" placeholder=" Bank Account No"
+                            clientidmode="Static" tabindex="3" maxlength="100" onkeypress="return IsAlphaNumeric(event);" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <label>
+                    </label>
+                    <label id="Label6" runat="server">
+                        Signature / Payment By
+                    </label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" id="TxtPaymentBy" placeholder="Signature / Payment By"
+                            clientidmode="Static" tabindex="3" maxlength="100" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <label id="Label2" runat="server">
+                        Amount in Rupees</label>
+                    <div align="center">
+                        <input type="text" class="form-control" runat="server" name="TxtPaymentAmount" id="TxtPaymentAmount"
+                            placeholder=" Amount in Rupees" clientidmode="Static" tabindex="3" maxlength="100"
+                            onkeypress="return IsNumeric(event);" />
+                        <input type="button" name="button" onclick="clickme();" Style="float: left; padding: 5px 10px; font-size: 12px;" Class="submit_btn" value="Click here to Confirm Amount in Words" />
+                    </div>
+                </div>
+                <div class="company_list">
+                    <div id="container" style="font-size: 13; color: Teal; font-family: Arial;">
+                    </div>
+                </div>
+            </div>
+            <div class="company_list">
+                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="submit_btn" OnClientClick="return validate()"
+                    TabIndex="14" />
+                <asp:Button ID="btnreset" runat="server" Text="Reset" CssClass="submit_btn" TabIndex="15"
+                     OnClientClick="return resetFields()" />
+            </div>
+        </div>
+    </div>
+    </form>
+    <script type="text/javascript" language="javascript">
+        function validate() {
+            if (document.getElementById("<%=TxtPaymentFrom.ClientID %>").value.trim() == "") {
+                alert("Please Provide PaymentFrom");
+                document.getElementById("<%=TxtPaymentFrom.ClientID %>").focus();
+                return false;
+            }
+
+            if (document.getElementById("<%=TxtPaymentNo.ClientID %>").value.trim() == "") {
+                alert("Please Provide PaymentNo");
+                document.getElementById("<%=TxtPaymentNo.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtBankName.ClientID %>").value.trim() == "") {
+                alert("Please Provide BankName");
+                document.getElementById("<%=TxtBankName.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtBankAccountNo.ClientID %>").value.trim() == "") {
+                alert("Please Provide BankAccountNo");
+                document.getElementById("<%=TxtBankAccountNo.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtPaymentBy.ClientID %>").value.trim() == "") {
+                alert("Please Provide PaymentBy");
+                document.getElementById("<%=TxtPaymentBy.ClientID %>").focus();
+                return false;
+            }
+            if (document.getElementById("<%=TxtPaymentAmount.ClientID %>").value.trim() == "") {
+                alert("Please Provide PaymentAmount");
+                document.getElementById("<%=TxtPaymentAmount.ClientID %>").focus();
+                return false;
+            }
+
+        }
+    </script>
+    <!-- Check the Keypressed is Numeric-->
+    <script type="text/javascript" language="javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            return ret;
+        }
+    </script>
+    <!-- Check the Keypressed is Alphabetic or Numeric or for Cursor Movement-->
+    <script type="text/javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); //Tab
+        specialKeys.push(46); //Delete
+        specialKeys.push(36); //Home
+        specialKeys.push(35); //End
+        specialKeys.push(37); //Left
+        specialKeys.push(39); //Right
+        function IsAlphaNumeric(e) {
+            var keyCode = e.keyCode == 0 ? e.charCode : e.keyCode;
+            //alert(keyCode);
+            var ret = ((keyCode = 39) || (keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (specialKeys.indexOf(e.keyCode) != -1 && e.charCode != e.keyCode));
+            return ret;
+        }
+    </script>
+    <script>
+        function convert_number(number) {
+            if ((number < 0) || (number > 999999999)) {
+                return "Number is out of range";
+            }
+            var Gn = Math.floor(number / 10000000);  /* Crore */
+            number -= Gn * 10000000;
+            var kn = Math.floor(number / 100000);     /* lakhs */
+            number -= kn * 100000;
+            var Hn = Math.floor(number / 1000);      /* thousand */
+            number -= Hn * 1000;
+            var Dn = Math.floor(number / 100);       /* Tens (deca) */
+            number = number % 100;               /* Ones */
+            var tn = Math.floor(number / 10);
+            var one = Math.floor(number % 10);
+            var res = "";
+
+            if (Gn > 0) {
+                res += (convert_number(Gn) + " Crore");
+            }
+            if (kn > 0) {
+                res += (((res == "") ? "" : " ") +
+            convert_number(kn) + " Lakhs");
+            }
+            if (Hn > 0) {
+                res += (((res == "") ? "" : " ") +
+            convert_number(Hn) + " Thousand");
+            }
+
+            if (Dn) {
+                res += (((res == "") ? "" : " ") +
+            convert_number(Dn) + " hundred");
+            }
+
+
+            var ones = Array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eightteen", "Nineteen");
+            var tens = Array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eigthy", "Ninety");
+
+            if (tn > 0 || one > 0) {
+                if (!(res == "")) {
+                    res += " and ";
+                }
+                if (tn < 2) {
+                    res += ones[tn * 10 + one];
+                }
+                else {
+
+                    res += tens[tn];
+                    if (one > 0) {
+                        res += ("-" + ones[one]);
+                    }
+                }
+            }
+
+            if (res == "") {
+                res = "zero";
+            }
+            return res;
+        }
+
+        function clickme() {
+            //alert(convert_number(document.forms[0].TxtPaymentAmount.value));
+            document.getElementById("container").innerHTML = convert_number(document.forms[0].TxtPaymentAmount.value);
+        }
+    </script>
+</asp:Content>
+
